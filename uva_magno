@@ -99,12 +99,6 @@ for epoch in range(Nepoch):
                 float) + 1  # Findign the first threshold crossing
             # print('firingTime[layer]', firingTime[layer])
             firingTime[layer][firingTime[layer] > tmax] = tmax  # Forcing the fake spike
-            # 检查是否已经达到最大时间步长
-            already_max_time = firingTime[layer] == tmax
-            if cp.any(already_max_time):
-                # 对于已经达到最大时间步长的神经元，停止更新膜电位
-                Voltage[already_max_time, :] = Voltage[already_max_time, tmax].reshape(-1, 1)
-
             Spikes[layer][:, :, :] = 0
             Spikes[layer][X[layer][0], X[layer][1], firingTime[layer].reshape(Nnrn[layer], 1).astype(
                 int)] = 1  # converting firing times to spikes
